@@ -18,7 +18,7 @@ async def handle_message(update: Update, context: CallbackContext):
     """Gestisce i messaggi ricevuti."""
     await update.message.reply_text(f"Hai detto: {update.message.text}")
 
-async def main():
+def main():
     """Avvia il bot in modalità polling."""
     app = Application.builder().token(TOKEN).build()
 
@@ -27,7 +27,7 @@ async def main():
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
     print("✅ Bot avviato!")
-    await app.run_polling()
+    app.run_polling()
 
 if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
+    main()
