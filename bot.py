@@ -40,5 +40,8 @@ async def main():
     asyncio.create_task(stop_bot(app))  # Avvia il sistema di spegnimento automatico
     await app.run_polling()
 
+# ✅ FIX: Usa asyncio.get_event_loop() invece di asyncio.run()
 if __name__ == "__main__":
-    asyncio.run(main())  # Esegue il bot correttamente
+    loop = asyncio.get_event_loop()
+    loop.create_task(main())  # Avvia il bot senza bloccare il loop
+    loop.run_forever()  # Mantiene il bot attivo
