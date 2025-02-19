@@ -31,7 +31,7 @@ async def stop_bot(app: Application):
             break
         active_users.clear()
 
-async def main():
+async def run_bot():
     """Avvia il bot."""
     app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
@@ -41,8 +41,11 @@ async def main():
     asyncio.create_task(stop_bot(app))  # Avvia il sistema di spegnimento automatico
     await app.run_polling()
 
-# ✅ FIX: Usa `get_event_loop()` invece di `asyncio.run()`
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.create_task(main())  # Avvia il bot senza bloccare il loop
-    loop.run_forever()  # Mantiene il bot attivo
+    try:
+        asyncio.run(run_bot())  # Avvia il bot in modo sicuro
+    except RuntimeError:
+        # FIX per Render: esegue il codice su un event loop già attivo
+        loop = asyncio.get_event_loop()
+        loop.create_task(run_bot())
+        loop.run_forever()
