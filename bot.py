@@ -1,6 +1,7 @@
+import os
+import asyncio
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
-import os, asyncio
 
 TOKEN = os.getenv("TOKEN")
 
@@ -26,7 +27,7 @@ async def stop_bot(app: Application):
         await asyncio.sleep(TIMEOUT)
         if not active_users:
             print("Nessuna attività, sto chiudendo il bot...")
-            await app.shutdown()  # Chiude in modo sicuro
+            await app.shutdown()  # Chiude il bot in modo sicuro
             break
         active_users.clear()
 
@@ -40,7 +41,7 @@ async def main():
     asyncio.create_task(stop_bot(app))  # Avvia il sistema di spegnimento automatico
     await app.run_polling()
 
-# ✅ FIX: Usa asyncio.get_event_loop() invece di asyncio.run()
+# ✅ FIX: Usa `get_event_loop()` invece di `asyncio.run()`
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     loop.create_task(main())  # Avvia il bot senza bloccare il loop
