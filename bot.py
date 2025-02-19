@@ -4,10 +4,10 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 
 # Assicurati che il token venga letto correttamente
-TOKEN2 = os.getenv("TOKEN")
+TOKEN = os.getenv("TOKEN")
 
 # Se il token è None, il programma deve lanciare un errore
-if not TOKEN2:
+if not TOKEN:
     raise ValueError("TOKEN non trovato nelle variabili d'ambiente!")
 
 async def start(update: Update, context: CallbackContext):
